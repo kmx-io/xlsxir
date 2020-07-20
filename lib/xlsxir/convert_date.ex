@@ -18,21 +18,10 @@ defmodule Xlsxir.ConvertDate do
       {1975, 4, 30}
   """
   def from_serial(serial) do
-    f_serial = serial
-               |> convert_char_number
-               |> is_float
-               |> case do
-                    false -> List.to_integer(serial)
-                    true  -> serial
-                             |> List.to_float()
-                             |> Float.floor
-                             |> round
-                  end
-
+    f_serial = List.to_integer(serial)
     # Convert to gregorian days and get date from that
     gregorian = f_serial - 2 +               # adjust two days for first and last day since base year
                 date_to_days({1900, 1, 1})   # Add days in base year 1900
-
     gregorian
     |> days_to_date
   end
@@ -40,21 +29,4 @@ defmodule Xlsxir.ConvertDate do
   defp date_to_days(date), do: :calendar.date_to_gregorian_days(date)
 
   defp days_to_date(days), do: :calendar.gregorian_days_to_date(days)
-
-  @doc """
-  Converts extracted number in `char_list` format to either `integer` or `float`.
-  """
-  def convert_char_number(number) do
-    str = List.to_string(number)
-
-    str
-    |> String.match?(~r/[.eE]/)
-    |> case do
-         false -> List.to_integer(number)
-         true  -> case Float.parse(str) do
-                    {f, _} -> f
-                        _  -> raise "Invalid Float"
-                  end
-       end
-  end
 end

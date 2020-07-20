@@ -1,6 +1,5 @@
 defmodule Xlsxir.ParseWorksheet do
   alias Xlsxir.{ConvertDate, ConvertDateTime, SaxError}
-  import Xlsxir.ConvertDate, only: [convert_char_number: 1]
   require Logger
 
   @moduledoc """
@@ -140,8 +139,8 @@ defmodule Xlsxir.ParseWorksheet do
       # Type string
       ['s', _, i] -> find_string(strings_tid, List.to_integer(i))
       # Type number
-      [nil, nil, n] -> convert_char_number(n)
-      ['n', nil, n] -> convert_char_number(n)
+      [nil, nil, n] -> Decimal.new(n)
+      ['n', nil, n] -> Decimal.new(n)
       # ISO 8601 type date
       [nil, 'd', d] -> convert_date_or_time(d)
       ['n', 'd', d] -> convert_date_or_time(d)

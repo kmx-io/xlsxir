@@ -13,15 +13,7 @@ You can add Xlsxir as a dependency to your Elixir project via the Hex package ma
 
 ```elixir
 def deps do
-  [ {:xlsxir, "~> 1.6.4"} ]
-end
-```
-
-Or, you can directly reference the GitHub repo:
-
-```elixir
-def deps do
-  [ {:xlsxir, github: "jsonkenl/xlsxir"} ]
+  [ {:xlsxir, github: "kmx-io/xlsxir"} ]
 end
 ```
 
